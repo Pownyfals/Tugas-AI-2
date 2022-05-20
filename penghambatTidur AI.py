@@ -5,6 +5,7 @@ import heapq
 df = pd.read_csv("TUBESAI01 - Sheet1.csv") #read file from excel
 # print(df.head()) #print the first 5 row
 
+#TAHAP FUZIFIKASI
 #ipk
 def uIPK_buruk(ipk):
   #hasilnya 0-1
@@ -125,6 +126,8 @@ df["Gaji_sangatBesar"] = sangatBesar
 
 #print(fuzzIPK)
 
+
+#TAHAP INFERENCE
 #menentukan kategori dari tiap nilai yang diberikan pada array fuzzXD
 total = 0
 fuzzAkhirIPK = []
@@ -202,7 +205,7 @@ def inferenceRule(ipk,gaji):
 
 nk = []
 
-for i in range(100):
+for i in range(len(fuzzAkhirIPK)):
     isi = []
         #quarter 
     isi.append(inferenceRule(fuzzAkhirIPK[i][0],fuzzAkhirGaji[i][0]))
@@ -217,15 +220,37 @@ for i in range(100):
     nk.append(isi)
 
 
-
+rendah = []
+tinggi = []
 for i in range(len(nk)):
-    print("no : "+str(i)+ str(nk[i]))
+  xd = []
+  dx = []
+  for j in range(len(nk[i])-1):
+    if(nk[i][j] == "rendah"):
+      xd.append(nk[i][j+1])
+    elif(nk[i][j] == "tinggi"):
+      dx.append(nk[i][j+1])
+    elif(len(dx)==0):
+      dx.append(0)
+  rendah.append(xd)
+  tinggi.append(dx)
 
 
+# for i in range(len(nk)):
+#   print("data ke"+str(i)+str(nk[i]),end ="\n")
+#   print("dengan rendah : "+str(rendah[i]),end="\n")
+#   print("dengan tinggi : "+str(tinggi[i]),end="\n\n")
 
 
+finalNK = []
+for i in range(len(nk)):
+  finalNK.append(["rendah",max(rendah[i]),"tinggi",max(tinggi[i])])
+
+for i in range(len(finalNK)):
+  print("data ke : "+str(i+1)+"  "+str(finalNK[i]),end ="\n")
 
 
+#TAHAP DEFUZIFIKASI
        
         
 
